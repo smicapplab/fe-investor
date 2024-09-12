@@ -40,6 +40,6 @@
 	</Card.Header>
 	<Card.Content>
 		<div class="text-2xl font-bold text-green-600">+₱2,350.77</div>
-		<p class="text-xs text-muted-foreground">+180.1% from last yesterday</p>
+		<p class="text-xs text-muted-foreground">+180.1% from yesterday</p>
 	</Card.Content>
 </Card.Root>
