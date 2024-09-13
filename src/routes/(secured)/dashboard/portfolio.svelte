@@ -109,9 +109,8 @@
 							<Table.Cell class="text-right whitespace-nowrap">{ownership}</Table.Cell>
 							<Table.Cell class="text-right whitespace-nowrap">{maturity}</Table.Cell>
 							<Table.Cell class="text-right whitespace-nowrap">{status}</Table.Cell>
-							<Table.Cell class="text-right text-green-500 whitespace-nowrap">{interest}</Table.Cell
-							>
-							<Table.Cell class="text-right text-green-500 whitespace-nowrap">{profit}</Table.Cell>
+							<Table.Cell class="text-right whitespace-nowrap">{interest}</Table.Cell>
+							<Table.Cell class="text-right whitespace-nowrap">{profit}</Table.Cell>
 						</Table.Row>
 					{/each}
 				</Table.Body>

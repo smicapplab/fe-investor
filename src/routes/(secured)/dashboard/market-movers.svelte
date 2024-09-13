@@ -90,11 +90,7 @@
 								<div class="text-sm text-muted-foreground">{stock.name}</div>
 							</Table.Cell>
 							<Table.Cell class="text-right whitespace-nowrap">{stock.last}</Table.Cell>
-							<Table.Cell
-								class="whitespace-nowrap text-right {stock.change > 0
-									? 'text-green-500'
-									: 'text-red-500'}">{stock.change}</Table.Cell
-							>
+							<Table.Cell class="text-right whitespace-nowrap">{stock.change}</Table.Cell>
 							<Table.Cell class="text-right whitespace-nowrap">{stock.vol}</Table.Cell>
 							<Table.Cell class="whitespace-nowrap"
 								><Button variant="outline" size="sm">Buy</Button></Table.Cell

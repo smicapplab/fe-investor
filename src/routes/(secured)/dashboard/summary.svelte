@@ -29,7 +29,7 @@
 		<HandCoins class="w-4 h-4 text-muted-foreground" />
 	</Card.Header>
 	<Card.Content>
-		<div class="text-2xl font-bold text-green-600">₱720,234.42</div>
+		<div class="text-2xl font-bold">₱720,234.42</div>
 		<p class="text-xs text-muted-foreground">13% from last month</p>
 	</Card.Content>
 </Card.Root>
@@ -39,7 +39,7 @@
 		<SignpostBig class="w-4 h-4 text-muted-foreground" />
 	</Card.Header>
 	<Card.Content>
-		<div class="text-2xl font-bold text-green-600">₱3,999,650.00</div>
+		<div class="text-2xl font-bold">₱3,999,650.00</div>
 		<p class="text-xs text-muted-foreground">Across 3 auctioned notes</p>
 	</Card.Content>
 </Card.Root>
