@@ -1,15 +1,21 @@
 <script>
-// @ts-nocheck
-
+	// @ts-nocheck
 	import { onMount } from 'svelte';
 	import * as Card from '$lib/components/ui/card/index.js';
 
 	function generatePortfolioData() {
 		const end = new Date();
 		const start = new Date(end.getTime() - 30 * 24 * 60 * 60 * 1000); // 30 days ago
-		const data = [];
-		let prevValue = 130000; // Starting value
+		const activeInvestmentData = [];
+		const interestEarnedData = [];
+		const startValue = 5000500.0;
+		const endValue = 54000500.0;
+		const totalDays = Math.ceil((end - start) / (24 * 60 * 60 * 1000));
+		const growthRate = Math.pow(endValue / startValue, 1 / totalDays) - 1;
 		const volatility = 0.015; // 1.5% daily volatility
+
+		let prevValue = startValue;
+		let totalInterest = 0;
 
 		for (let date = new Date(start); date <= end; date.setDate(date.getDate() + 1)) {
 			// Skip weekends
@@ -17,25 +23,32 @@
 
 			let value;
 			if (date.toDateString() === end.toDateString()) {
-				value = 145231.89; // Today's value
-			} else if (
-				date.toDateString() === new Date(end.getTime() - 24 * 60 * 60 * 1000).toDateString()
-			) {
-				value = 132997.47; // Yesterday's value
+				value = endValue; // Today's value
 			} else {
-				const change = (Math.random() - 0.5) * volatility;
-				value = prevValue * (1 + change);
+				const expectedGrowth = prevValue * (1 + growthRate);
+				const randomFactor = 1 + (Math.random() - 0.5) * volatility;
+				value = expectedGrowth * randomFactor;
 			}
 
-			data.push({
+			activeInvestmentData.push({
 				x: date.getTime(),
 				y: parseFloat(value.toFixed(2))
+			});
+
+			// Calculate interest earned (random between 1% and 3.5% annually, applied daily)
+			const dailyInterestRate = (Math.random() * 0.025 + 0.01) / 365;
+			const dailyInterest = value * dailyInterestRate;
+			totalInterest += dailyInterest;
+
+			interestEarnedData.push({
+				x: date.getTime(),
+				y: parseFloat(totalInterest.toFixed(2))
 			});
 
 			prevValue = value;
 		}
 
-		return data;
+		return [activeInvestmentData, interestEarnedData];
 	}
 
 	let chart;
@@ -43,11 +56,17 @@
 	onMount(async () => {
 		const ApexCharts = (await import('apexcharts')).default;
 
+		const [activeInvestmentData, interestEarnedData] = generatePortfolioData();
+
 		const options = {
 			series: [
 				{
-					name: 'Portfolio Value',
-					data: generatePortfolioData()
+					name: 'Active Investment',
+					data: activeInvestmentData
+				},
+				{
+					name: 'Interest Earned',
+					data: interestEarnedData
 				}
 			],
 			chart: {
@@ -62,28 +81,49 @@
 			},
 			stroke: {
 				curve: 'smooth',
-				width: 2,
-				colors: ['#FFA500']
+				width: 2
 			},
+			colors: ['#FFA500', '#40E0D0'], // Orange for Active Investment, Turquoise for Interest Earned
 			xaxis: {
 				type: 'datetime'
 			},
-			yaxis: {
-				labels: {
-					formatter: function (value) {
-						return '$' + value.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+			yaxis: [
+				{
+					title: {
+						text: 'Active Investment'
+					},
+					labels: {
+						formatter: function (value) {
+							return '₱' + value.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+						}
+					}
+				},
+				{
+					opposite: true,
+					title: {
+						text: 'Interest Earned'
+					},
+					labels: {
+						formatter: function (value) {
+							return '₱' + value.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+						}
 					}
 				}
-			},
+			],
 			tooltip: {
 				x: {
 					format: 'dd MMM yyyy'
 				},
 				y: {
 					formatter: function (value) {
-						return '$' + value.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+						return '₱' + value.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 					}
 				}
+			},
+			legend: {
+				position: 'bottom',
+				horizontalAlign: 'center',
+				offsetY: 10
 			}
 		};
 
